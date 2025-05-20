@@ -39,9 +39,9 @@ conda activate convlogic
 Clone and install:
 
 ```bash
-git clone git@github.com:lkorinek/convlogic.git
+git clone https://github.com/lkorinek/convlogic.git
 cd convlogic
-pip install . --no-build-isolation
+pip install -v .
 ```
 
 💡 Use `CPU_ONLY=1` to run without a GPU (does not support training).
