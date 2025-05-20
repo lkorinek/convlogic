@@ -11,7 +11,9 @@ def get_extensions():
     debug_mode = os.getenv("DEBUG", "0") == "1"
     cpu_only = os.getenv("CPU_ONLY", "0") == "1"
 
-    use_cuda = not cpu_only and torch.cuda.is_available() and CUDA_HOME is not None
+    use_cuda = (not cpu_only and torch.cuda.is_available() and CUDA_HOME is not None) or os.getenv(
+        "FORCE_CUDA", "0"
+    ) == "1"
 
     if cpu_only:
         print(">>> CPU_ONLY=1 → Building without CUDA")

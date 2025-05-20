@@ -1,6 +1,11 @@
 FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Set the CUDA architecture list.
+# This should match your GPU.
+# For example:
+#   - RTX 4090 → 8.9
 ENV TORCH_CUDA_ARCH_LIST="8.9"
 
 # Install system dependencies
@@ -26,15 +31,8 @@ RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
     curl -sS https://bootstrap.pypa.io/get-pip.py | python3
 
 RUN pip install --upgrade pip
-RUN pip install -U pip setuptools wheel
+RUN pip install -U pip setuptools wheel ninja
 RUN pip install --upgrade requests
-
-# Install Git LFS
-RUN apt-get update && \
-    apt-get install -y curl git && \
-    curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
-    apt-get install -y git-lfs && \
-    git lfs install
 
 # Provide the Weights & Biases secret
 ARG WANDB_API_KEY
