@@ -52,6 +52,7 @@ Run training:
 python3 src/train.py model=cifar10_s trainer.max_epochs=200
 ```
 
+> 📌 **Note:** If you want to try the ConvLogic model right away without setting up anything locally, check out the [**ConvLogic MNIST Demo Notebook**](notebooks/ConvLogic_Demo.ipynb), which you can run directly in [**Google Colab**](https://colab.research.google.com/github/lkorinek/convlogic/blob/main/notebooks/ConvLogic_Demo.ipynb).
 ---
 
 ### 🧪 Tested Environment
