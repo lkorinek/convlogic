@@ -49,7 +49,7 @@ pip install -v .
 Run training:
 
 ```bash
-python3 -m train model=cifar10_s trainer.max_epochs=200
+python3 src/train.py model=cifar10_s trainer.max_epochs=200
 ```
 
 ---
