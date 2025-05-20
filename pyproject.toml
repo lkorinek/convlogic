@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel", "ninja", "torch"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "convlogic"
+version = "1.0.0"
+description = "Convolutional Differentiable Logic Gate Network"
+
+readme = "README.md"
+requires-python = ">=3.11"
+dynamic = ["dependencies"]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N"]
+ignore = ["N812", "F401"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.coverage.report]
+omit = ["tests/*"]
+exclude_lines = [
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError"
+]
+show_missing = true

@@ -1,0 +1,28 @@
+method: random
+parameters:
+  general.seed:
+    distribution: int_uniform
+    min: 0
+    max: 10000
+
+  trainer.max_epochs:
+    value: 300
+
+  early_stopping.use:
+    value: true
+  early_stopping.min_delta:
+    value: 0.001
+  early_stopping.patience:
+    value: 80
+  early_stopping.mode:
+    value: max
+
+  accuracy_threshold_stop.use:
+    value: true
+  accuracy_threshold_stop.epoch:
+    value: 25
+  accuracy_threshold_stop.threshold:
+    value: 0.585
+
+  logging.wandb:
+    value: true

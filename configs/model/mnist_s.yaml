@@ -1,0 +1,8 @@
+lr: 0.01
+weight_decay: 0.0
+k: 16
+tau: 6.5
+dataset_name: mnist
+batch_size: 512
+input_channels: null
+implementation: cuda

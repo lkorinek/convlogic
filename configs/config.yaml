@@ -1,0 +1,44 @@
+defaults:
+  - _self_
+  - model: cifar10_s
+
+hydra:
+  job:
+    chdir: true
+
+general:
+  seed: 42
+  profile: false
+  profile_type: advanced  # simple | advanced | pytorch
+
+logging:
+  wandb: false
+
+trainer:
+  max_epochs: 100
+  accelerator: gpu
+  devices: 1  # Set the number of GPUs to enable multi-GPU distributed training using DDP.
+  deterministic: false
+
+data:
+  num_workers: 2
+  threshold_levels: null
+  train_val_split: 0.9
+  data_dir: ../../data # --> outputs/data
+
+early_stopping:
+  use: false
+  monitor: val_eval/acc
+  min_delta: 0.001
+  patience: 50
+  mode: max
+
+accuracy_threshold_stop:
+  monitor: val_no_eval/acc
+  use: false
+  epoch: 50
+  threshold: 0.58
+
+evaluate:
+  checkpoint_path: models/
+  model_filename: model_cifar10_s

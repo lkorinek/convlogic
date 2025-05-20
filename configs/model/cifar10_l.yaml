@@ -1,0 +1,8 @@
+lr: 0.02
+weight_decay: 0.002
+k: 1024
+tau: 340
+dataset_name: cifar10-31
+batch_size: 128
+input_channels: null
+implementation: cuda
