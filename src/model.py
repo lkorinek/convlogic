@@ -99,9 +99,9 @@ class ConvLogicMnistModel(nn.Module):
                 implementation=implementation,
             ),
             nn.Flatten(),
-            LogicLayer(81 * k_param, 1280 * k_param, residual_init=False, implementation=implementation),
-            LogicLayer(1280 * k_param, 640 * k_param, residual_init=False, implementation=implementation),
-            LogicLayer(640 * k_param, 320 * k_param, residual_init=False, implementation=implementation),
+            LogicLayer(81 * k_param, 1280 * k_param, residual_init=True, implementation=implementation),
+            LogicLayer(1280 * k_param, 640 * k_param, residual_init=True, implementation=implementation),
+            LogicLayer(640 * k_param, 320 * k_param, residual_init=True, implementation=implementation),
             GroupSum(k=10, tau=tau),
         ]
         self.network = nn.Sequential(*layers)
