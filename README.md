@@ -86,7 +86,7 @@ ConvLogic uses [Hydra](https://hydra.cc/) to manage modular configs stored in `c
 | `mnist_m`    | MNIST        | Medium  | TBD                 | TBD            |
 | `mnist_l`    | MNIST        | Large   | TBD                 | TBD            |
 | `cifar10_s`  | CIFAR-10-3   | Small   | 59.77%              | 60.38%         |
-| `cifar10_m`  | CIFAR-10-3   | Medium  | TBD                 | TBD            |
+| `cifar10_m`  | CIFAR-10-3   | Medium  | 68.99%              | 71.01%         |
 | `cifar10_b`  | CIFAR-10-31  | Big     | TBD                 | TBD            |
 | `cifar10_l`  | CIFAR-10-31  | Large   | TBD                 | TBD            |
 
