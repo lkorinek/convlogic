@@ -99,7 +99,6 @@ lr: 0.01
 weight_decay: 0.0
 k: 64
 tau: 6.5
-lambda_entropy: 0.0
 dataset_name: mnist
 batch_size: 256
 ```
