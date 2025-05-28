@@ -82,7 +82,7 @@ ConvLogic uses [Hydra](https://hydra.cc/) to manage modular configs stored in `c
 
 | Model Name   | Dataset      | Size    | ConvLogic Accuracy  | Paper Accuracy |
 |--------------|--------------|---------|---------------------|----------------|
-| `mnist_s`    | MNIST        | Small   | TBD                 | TBD            |
+| `mnist_s`    | MNIST        | Small   | 98.32%              | 98.46%         |
 | `mnist_m`    | MNIST        | Medium  | TBD                 | TBD            |
 | `mnist_l`    | MNIST        | Large   | TBD                 | TBD            |
 | `cifar10_s`  | CIFAR-10-3   | Small   | 59.77%              | 60.38%         |
