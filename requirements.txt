@@ -1,6 +1,6 @@
 torch==2.7.1
 tqdm==4.67.1
-scikit-learn==1.6.1
+scikit-learn==1.7.0
 torchvision==0.22.1
 matplotlib==3.10.3
 wandb==0.20.1
