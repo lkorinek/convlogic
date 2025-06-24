@@ -1,16 +1,14 @@
-import importlib
-
 import numpy as np
 import torch
 
 from .functional import GradFactor, bin_op_s, get_unique_connections
 from .packbitstensor import PackBitsTensor
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-difflogic_cuda = None
-if device.type == "cuda":
-    difflogic_cuda = importlib.import_module("difflogic_cuda")
+try:
+    import difflogic_cuda
+except ImportError:
+    difflogic_cuda = None
+    print("CUDA module 'difflogic_cuda' not found. Falling back to CPU implementation.")
 
 
 class LogicLayer(torch.nn.Module):

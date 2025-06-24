@@ -1,7 +1,6 @@
 import os
 
 import hydra
-import pytorch_lightning as pl
 import torch
 from hydra.utils import get_original_cwd
 from omegaconf import DictConfig, OmegaConf

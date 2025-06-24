@@ -1,5 +1,3 @@
-import importlib
-
 import torch
 from torch import nn
 from torch.autograd import Function
@@ -7,11 +5,11 @@ from torch.autograd import Function
 from difflogic.functional import GradFactor, bin_op_s
 from difflogic.packbitstensor import PackBitsTensor
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-convlogic_cuda = None
-if device.type == "cuda":
-    convlogic_cuda = importlib.import_module("convlogic_cuda")
+try:
+    import convlogic_cuda
+except ImportError:
+    convlogic_cuda = None
+    print("CUDA module 'convlogic_cuda' not found. Falling back to CPU implementation.")
 
 
 class TreeLogicFunction(Function):

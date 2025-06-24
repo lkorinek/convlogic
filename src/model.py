@@ -4,9 +4,8 @@ import torch
 import torch.nn as nn
 from torchmetrics.functional import accuracy
 
-from convlogic import ConvLogicLayer, PoolLogicLayer, TreeLogicLayer
+from convlogic import ConvLogicLayer
 from difflogic import GroupSum, LogicLayer
-from difflogic.functional import GradFactor
 
 
 class ConvLogicCifarModel(nn.Module):
