@@ -44,7 +44,8 @@ cd convlogic
 pip install -v .
 ```
 
-💡 Use `CPU_ONLY=1` to run without a GPU (does not support training).
+> [!TIP]
+> Use `CPU_ONLY=1` to run without a GPU (does not support training).
 
 Run training:
 
@@ -52,25 +53,18 @@ Run training:
 python3 src/train.py model=cifar10_s trainer.max_epochs=200
 ```
 
-> 📌 **Note:** If you want to try the ConvLogic model right away without setting up anything locally, check out the [**ConvLogic MNIST Demo Notebook**](notebooks/ConvLogic_Demo.ipynb), which you can run directly in [**Google Colab**](https://colab.research.google.com/github/lkorinek/convlogic/blob/main/notebooks/ConvLogic_Demo.ipynb).
+> [!NOTE]
+> If you want to try the ConvLogic model right away without setting up anything locally, check out the [**ConvLogic MNIST Demo Notebook**](notebooks/ConvLogic_Demo.ipynb), which you can run directly in [**Google Colab**](https://colab.research.google.com/github/lkorinek/convlogic/blob/main/notebooks/ConvLogic_Demo.ipynb).
+
 ---
 
 ### 🧪 Tested Environment
 
-| Python | PyTorch | Torchvision | CUDA   | cuDNN | OS           | GPU            |
-|--------|---------|-------------|--------|-------|--------------|----------------|
-| 3.11   | 2.7.0   | 0.22.0      | 12.2.2 | 8.x   | Ubuntu 20.04 | NVIDIA RTX 4090 |
+| Python | PyTorch | CUDA   | cuDNN | OS           | GPU            |
+|--------|---------|--------|-------|--------------|----------------|
+| 3.11   | 2.7.1   | 12.2.2 | 8.x   | Ubuntu 20.04 | NVIDIA RTX 4090 |
 
 > 🐳 Docker base: `nvidia/cuda:12.2.2-cudnn8-devel-ubuntu20.04`
-
----
-
-## 📚 Table of Contents
-- [Configuration](#-configuration)
-- [Quick Start (Docker-based)](#-quick-start-docker-based)
-- [Run Training](#-run-training)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -78,7 +72,7 @@ python3 src/train.py model=cifar10_s trainer.max_epochs=200
 
 ConvLogic uses [Hydra](https://hydra.cc/) to manage modular configs stored in `configs/`.
 
-### 🧩 Available Models
+### Available Models
 
 | Model Name   | Dataset      | Size    | ConvLogic Accuracy  | Paper Accuracy |
 |--------------|--------------|---------|---------------------|----------------|
@@ -92,7 +86,7 @@ ConvLogic uses [Hydra](https://hydra.cc/) to manage modular configs stored in `c
 
 Each model configuration is defined in `configs/model/`, e.g. `configs/model/mnist_s.yaml`.
 
-### ✨ Example config:
+### Example config:
 
 ```yaml
 lr: 0.01
@@ -103,7 +97,8 @@ dataset_name: mnist
 batch_size: 256
 ```
 
-> 📌 **Note on dataset names:** If the dataset includes a suffix like `cifar10-3`, the number (e.g., `3`) defines the number of threshold levels used to quantize each input channel. If no number is specified, the default is 1 threshold level (i.e., binary input per channel).
+> [!NOTE] 
+> **Dataset names:** If the dataset includes a suffix like `cifar10-3`, the number (e.g., `3`) defines the number of threshold levels used to quantize each input channel. If no number is specified, the default is 1 threshold level (i.e., binary input per channel).
 
 Override via CLI:
 
@@ -131,7 +126,7 @@ docker build -t convlogic-train -f dockerfiles/train.dockerfile .
 
 ---
 
-## 🚀 Run Training
+## Run Training
 
 ```bash
 docker run --rm --gpus device=0 --name convlogic convlogic-train model=mnist_s
@@ -140,9 +135,8 @@ docker run --rm --gpus device=0 --name convlogic convlogic-train model=cifar10_s
 docker run --rm --gpus device=0 --shm-size=8g --name convlogic convlogic-train model=cifar10_m
 ```
 
-> ⚠️ For larger models like `cifar10_l`, you might need to increase Docker shared memory using `--shm-size=8g`.
-
----
+> [!WARNING]
+> For larger models like `cifar10_l`, you might need to increase Docker shared memory using `--shm-size=8g`.
 
 ### 📊 With wandb Logging
 
@@ -166,8 +160,6 @@ Make sure your environment includes `WANDB_API_KEY`.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
 
 ## Acknowledgments
 
