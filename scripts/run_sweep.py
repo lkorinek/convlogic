@@ -2,8 +2,9 @@ import argparse
 import os
 import subprocess
 
-import wandb
 import yaml
+
+import wandb
 
 
 def train_wrapper():

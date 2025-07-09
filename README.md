@@ -97,7 +97,7 @@ dataset_name: mnist
 batch_size: 256
 ```
 
-> [!NOTE] 
+> [!NOTE]
 > **Dataset names:** If the dataset includes a suffix like `cifar10-3`, the number (e.g., `3`) defines the number of threshold levels used to quantize each input channel. If no number is specified, the default is 1 threshold level (i.e., binary input per channel).
 
 Override via CLI:
