@@ -31,6 +31,7 @@ def main(cfg: DictConfig):
         num_workers=cfg.data.num_workers,
         threshold_levels=cfg.data.threshold_levels,
         train_val_split=cfg.data.train_val_split,
+        threshold_type=cfg.data.threshold_type,
     )
 
     # infer input channels

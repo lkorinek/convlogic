@@ -22,13 +22,15 @@ class ConvLogicDataModule(pl.LightningDataModule):
         num_workers=2,
         threshold_levels=None,
         train_val_split=0.9,
+        threshold_type="uniform",
     ):
         super().__init__()
-        self.dataset_name = dataset_name
+        self.dataset_name = dataset_name.lower()
         self.data_dir = os.path.abspath(data_dir)
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.train_val_split = train_val_split
+        self.threshold_type = threshold_type.lower()
 
         if threshold_levels is not None:
             self.threshold_levels = threshold_levels
@@ -41,16 +43,32 @@ class ConvLogicDataModule(pl.LightningDataModule):
             else:
                 self.threshold_levels = 1
 
-        self.transforms = self._build_transforms()
+    def build_transforms(self):
+        def _apply_thresholds(x):
+            return torch.cat([(x > t).float() for t in self.thresholds], dim=0)
 
-    def _build_transforms(self):
-        def threshold_transform(x):
-            thresholds = [(x > ((i + 1) / (self.threshold_levels + 1))).float() for i in range(self.threshold_levels)]
-            return torch.cat(thresholds, dim=0)
+        return T.Compose([T.ToTensor(), T.Lambda(_apply_thresholds)])
 
-        base_transforms = [T.ToTensor(), T.Lambda(threshold_transform)]
+    def compute_thresholds_from_dataset(self, dataset):
+        x_all = torch.stack([x for x, _ in dataset])
+        x_flat = x_all.view(-1)
 
-        return T.Compose(base_transforms)
+        if self.threshold_type == "uniform":
+            thresholds = torch.linspace(1, self.threshold_levels, self.threshold_levels, dtype=torch.float32) / (
+                self.threshold_levels + 1
+            )
+            print(f"Computed uniform thresholds: {thresholds}")
+
+        elif self.threshold_type == "distributive":
+            sorted_x = torch.sort(x_flat)[0]
+            idx = (sorted_x.shape[0] * torch.arange(1, self.threshold_levels + 1) / (self.threshold_levels + 1)).long()
+            thresholds = sorted_x[idx]
+            print(f"Computed distributive thresholds: {thresholds}")
+
+        else:
+            raise ValueError(f"Unknown threshold_type: {self.threshold_type}")
+
+        return thresholds
 
     def setup(self, stage: str = None):
         if self.dataset_name.startswith("cifar10"):
@@ -60,10 +78,21 @@ class ConvLogicDataModule(pl.LightningDataModule):
         else:
             raise ValueError(f"Unsupported dataset: {self.dataset_name}")
 
-        full_train_set = dataset_class(
+        raw_train_set = dataset_class(
             root=self.data_dir,
             train=True,
             download=True,
+            transform=T.ToTensor(),
+        )
+
+        # Compute thresholds
+        self.thresholds = self.compute_thresholds_from_dataset(raw_train_set)
+        self.transforms = self.build_transforms()
+
+        full_train_set = dataset_class(
+            root=self.data_dir,
+            train=True,
+            download=False,
             transform=self.transforms,
         )
         self.test_set = dataset_class(
