@@ -23,6 +23,7 @@ trainer:
 data:
   num_workers: 2
   threshold_levels: null
+  threshold_type: distributive  # uniform | distributive
   train_val_split: 0.9
   data_dir: ../../data # --> outputs/data
 
