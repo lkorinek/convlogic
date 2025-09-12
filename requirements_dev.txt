@@ -1,5 +1,5 @@
 # pre-commit
-pre-commit==4.2.0
+pre-commit==4.3.0
 
 # testing
 pytest==8.4.1
