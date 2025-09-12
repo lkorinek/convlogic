@@ -11,7 +11,7 @@ Since the official implementation is not yet available, this repository provides
 - Convolutional logic layer (`ConvLogicLayer`) and Tree logic layer (`TreeLogicLayer`)
 - A modern PyTorch Lightning training pipeline
 - Hydra-based config management for clean experimentation
-- Updating the project to Python3.11+ and PyTorch 2.7.0+
+- Updating the project to Python3.11+ and PyTorch 2.8.0+
 - Support for distributed training
 
 Features:
