@@ -5,8 +5,14 @@ updates:
     schedule:
       interval: "monthly"
     versioning-strategy: "increase"
+    groups:
+      all-pip:
+        patterns: ["*"]   # All deps in one PR
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
+    groups:
+      all-actions:
+        patterns: ["*"]
