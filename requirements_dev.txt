@@ -3,7 +3,7 @@ pre-commit==4.3.0
 
 # testing
 pytest==8.4.2
-coverage==7.10.6
+coverage==7.10.7
 
 # linting
-ruff==0.13.0
+ruff==0.13.2
