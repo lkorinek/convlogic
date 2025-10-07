@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu20.04
+FROM nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -15,24 +15,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ninja-build \
     wget \
     curl \
-    ca-certificates
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    build-essential \
+    pkg-config \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install Python 3.11
-RUN add-apt-repository ppa:deadsnakes/ppa -y && \
-    apt-get update && apt-get install -y --no-install-recommends \
-    python3.11 \
-    python3.11-dev \
-    python3.11-distutils && \
-    ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
-    pip install --upgrade pip setuptools wheel
+RUN add-apt-repository -y ppa:deadsnakes/ppa \
+ && apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 python3.11-dev python3.11-venv \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3
-
-RUN pip install --upgrade pip
-RUN pip install -U pip setuptools wheel ninja
-RUN pip install --upgrade requests
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 \
+ && python3 -m ensurepip --upgrade \
+ && python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel \
+ && python3 -m pip install --no-cache-dir requests
 
 # Provide the Weights & Biases secret
 ARG WANDB_API_KEY
