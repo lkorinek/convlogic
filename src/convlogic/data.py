@@ -111,7 +111,7 @@ class ConvLogicDataModule(pl.LightningDataModule):
             self.train_set,
             batch_size=self.batch_size,
             shuffle=True,
-            pin_memory=True,
+            pin_memory=torch.cuda.is_available(),
             drop_last=True,
             num_workers=self.num_workers,
         )
@@ -121,7 +121,7 @@ class ConvLogicDataModule(pl.LightningDataModule):
             self.valid_set,
             batch_size=self.batch_size,
             shuffle=False,
-            pin_memory=True,
+            pin_memory=torch.cuda.is_available(),
             drop_last=True,
             num_workers=self.num_workers,
         )
@@ -131,7 +131,7 @@ class ConvLogicDataModule(pl.LightningDataModule):
             self.test_set,
             batch_size=self.batch_size,
             shuffle=False,
-            pin_memory=True,
+            pin_memory=torch.cuda.is_available(),
             drop_last=True,
             num_workers=self.num_workers,
         )
