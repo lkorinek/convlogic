@@ -8,8 +8,8 @@ from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import CSVLogger, WandbLogger
 from torch.profiler import ProfilerActivity, schedule
 
-from data import ConvLogicDataModule
-from model import ConvLogicModel
+from convlogic.data import ConvLogicDataModule
+from convlogic.model import ConvLogicModel
 from utils.seed import set_seed
 
 # Experiment with other options (medium, high, highest)

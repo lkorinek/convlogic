@@ -6,8 +6,8 @@ from hydra.utils import get_original_cwd
 from omegaconf import DictConfig, OmegaConf
 from pytorch_lightning import Trainer
 
-from data import ConvLogicDataModule
-from model import ConvLogicModel
+from convlogic.data import ConvLogicDataModule
+from convlogic.model import ConvLogicModel
 
 
 @hydra.main(version_base="1.1", config_path="../configs", config_name="config")
