@@ -62,9 +62,9 @@ python3 src/train.py model=cifar10_s trainer.max_epochs=200
 
 | Python | PyTorch | CUDA   | cuDNN | OS           | GPU            |
 |--------|---------|--------|-------|--------------|----------------|
-| 3.11   | 2.7.1   | 12.2.2 | 8.x   | Ubuntu 20.04 | NVIDIA RTX 4090 |
+| 3.11   | 2.8.0   | 12.2.2 | 8.x   | Ubuntu 22.04 | NVIDIA RTX 4090 |
 
-> 🐳 Docker base: `nvidia/cuda:12.2.2-cudnn8-devel-ubuntu20.04`
+> 🐳 Docker base: `nvidia/cuda:12.2.2-cudnn8-devel-ubuntu22.04`
 
 ---
 
