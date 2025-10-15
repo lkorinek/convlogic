@@ -27,7 +27,7 @@ def test_logiclayer_range_0_1(impl_and_device):
     layer = LogicLayer(in_dim=3, out_dim=4, implementation=impl).to(device)
     x = torch.rand(1, 3, device=device)
     y = layer(x)
-    assert (0.0 <= y).all() and (y <= 1.0).all()
+    assert (y >= 0.0).all() and (y <= 1.0).all()
 
 
 def test_logiclayer_0_1(impl_and_device):

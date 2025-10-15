@@ -27,7 +27,7 @@ def test_treelogic_range_0_1(impl_and_device):
     layer = TreeLogicLayer(channels=1, input_bits=2, implementation=impl).to(device)
     x = torch.rand(1, 1, 1, 1, 2, device=device)
     y = layer(x)
-    assert (0.0 <= y).all() and (y <= 1.0).all()
+    assert (y >= 0.0).all() and (y <= 1.0).all()
 
 
 def test_treelogic_deterministic(impl_and_device):

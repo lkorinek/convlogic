@@ -2,13 +2,12 @@ import argparse
 import os
 import subprocess
 
-import yaml
-
 import wandb
+import yaml
 
 
 def train_wrapper():
-    with open("configs/sweep_config.yaml", "r") as f:
+    with open("configs/sweep_config.yaml") as f:
         sweep_config = yaml.safe_load(f)
 
     parameters = sweep_config.get("parameters", {})
@@ -42,7 +41,7 @@ def main():
     project_name = args.project_name
 
     if sweep_id is None:
-        with open("configs/sweep_config.yaml", "r") as f:
+        with open("configs/sweep_config.yaml") as f:
             sweep_config = yaml.safe_load(f)
 
         # Create the sweep

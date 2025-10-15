@@ -168,9 +168,9 @@ class LogicLayer(torch.nn.Module):
 
     def get_connections(self, connections):
         assert self.out_dim * 2 >= self.in_dim, (
-            "The number of neurons ({}) must not be smaller than half of the "
-            "number of inputs ({}) because otherwise not all inputs could be "
-            "used or considered.".format(self.out_dim, self.in_dim)
+            f"The number of neurons ({self.out_dim}) must not be smaller than half of the "
+            f"number of inputs ({self.in_dim}) because otherwise not all inputs could be "
+            "used or considered."
         )
         if connections == "random":
             c = torch.randperm(2 * self.out_dim) % self.in_dim
@@ -208,7 +208,7 @@ class GroupSum(torch.nn.Module):
         return x.reshape(*x.shape[:-1], self.k, x.shape[-1] // self.k).sum(-1) / self.tau
 
     def extra_repr(self):
-        return "k={}, tau={}".format(self.k, self.tau)
+        return f"k={self.k}, tau={self.tau}"
 
 
 class LogicLayerCudaFunction(torch.autograd.Function):

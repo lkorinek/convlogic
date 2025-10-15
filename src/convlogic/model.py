@@ -51,7 +51,7 @@ class ConvLogicCifarModel(nn.Module):
             self.extra_layers * flat * 5,
             self.extra_layers * (flat * 10) // 4,
         ]
-        for in_dim, out_dim in zip(fc_dims[:-1], fc_dims[1:]):
+        for in_dim, out_dim in zip(fc_dims[:-1], fc_dims[1:], strict=False):
             layers.append(LogicLayer(in_dim, out_dim, grad_factor=1, residual_init=True, implementation=implementation))
 
         layers.append(GroupSum(k=10, tau=tau))

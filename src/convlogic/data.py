@@ -39,7 +39,7 @@ class ConvLogicDataModule(pl.LightningDataModule):
                 try:
                     self.threshold_levels = int(dataset_name.split("-")[-1])
                 except ValueError:
-                    raise ValueError(f"Invalid threshold suffix: {dataset_name}")
+                    raise ValueError(f"Invalid threshold suffix: {dataset_name}") from None
             else:
                 self.threshold_levels = 1
 

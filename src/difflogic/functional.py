@@ -76,8 +76,8 @@ def bin_op_s(a, b, i_s):
 
 def get_unique_connections(in_dim, out_dim):
     assert out_dim * 2 >= in_dim, (
-        "The number of neurons ({}) must not be smaller than half of the number of inputs "
-        "({}) because otherwise not all inputs could be used or considered.".format(out_dim, in_dim)
+        f"The number of neurons ({out_dim}) must not be smaller than half of the number of inputs "
+        f"({in_dim}) because otherwise not all inputs could be used or considered."
     )
 
     x = torch.arange(in_dim).long().unsqueeze(0)
@@ -112,7 +112,7 @@ def get_unique_connections(in_dim, out_dim):
         a = a[..., :out_dim]
         b = b[..., :out_dim]
     else:
-        assert False, (a.shape[-1], offset, out_dim)
+        raise AssertionError((a.shape[-1], offset, out_dim))
 
     perm = torch.randperm(out_dim)
 

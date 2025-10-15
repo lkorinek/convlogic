@@ -47,7 +47,7 @@ class CompiledLogicNet(torch.nn.Module):
         cpu_compiler="gcc",
         verbose=False,
     ):
-        super(CompiledLogicNet, self).__init__()
+        super().__init__()
         self.model = model
         self.device = device
         self.num_bits = num_bits
@@ -62,9 +62,7 @@ class CompiledLogicNet(torch.nn.Module):
             self.num_inputs = None
 
             assert isinstance(self.model[-1], GroupSum), (
-                "The last layer of the model must be GroupSum, but it is {} / {} instead.".format(
-                    type(self.model[-1]), self.model[-1]
-                )
+                f"The last layer of the model must be GroupSum, but it is {type(self.model[-1])} / {self.model[-1]} instead."
             )
             self.num_classes = self.model[-1].k
 
@@ -78,17 +76,17 @@ class CompiledLogicNet(torch.nn.Module):
                     layers.append((layer.indices[0], layer.indices[1], layer.weights.argmax(1)))
                 elif isinstance(layer, torch.nn.Flatten):
                     if verbose:
-                        print("Skipping torch.nn.Flatten layer ({}).".format(type(layer)))
+                        print(f"Skipping torch.nn.Flatten layer ({type(layer)}).")
                 elif isinstance(layer, GroupSum):
                     if verbose:
-                        print("Skipping GroupSum layer ({}).".format(type(layer)))
+                        print(f"Skipping GroupSum layer ({type(layer)}).")
                 else:
-                    assert False, "Error: layer {} / {} unknown.".format(type(layer), layer)
+                    raise AssertionError(f"Error: layer {type(layer)} / {layer} unknown.")
 
             self.layers = layers
 
             if verbose:
-                print("`layers` created and has {} layers.".format(len(layers)))
+                print(f"`layers` created and has {len(layers)} layers.")
 
         self.lib_fn = None
 
@@ -128,7 +126,7 @@ class CompiledLogicNet(torch.nn.Module):
         elif operation_name == "one":
             res = f"~{BITS_TO_ZERO_LITERAL[self.num_bits]}"
         else:
-            assert False, "Operator {} unknown.".format(operation_name)
+            raise AssertionError(f"Operator {operation_name} unknown.")
 
         if self.num_bits == 8:
             res = f"(char) ({res})"
@@ -139,7 +137,7 @@ class CompiledLogicNet(torch.nn.Module):
 
     def get_layer_code(self, layer_a, layer_b, layer_op, layer_id, prefix_sums):
         code = []
-        for var_id, (gate_a, gate_b, gate_op) in enumerate(zip(layer_a, layer_b, layer_op)):
+        for var_id, (gate_a, gate_b, gate_op) in enumerate(zip(layer_a, layer_b, layer_op, strict=False)):
             if self.device == "cpu" and layer_id == len(prefix_sums) - 1:
                 a = f"v{prefix_sums[layer_id - 1] + gate_a}"
                 b = f"v{prefix_sums[layer_id - 1] + gate_b}"
@@ -161,7 +159,7 @@ class CompiledLogicNet(torch.nn.Module):
     def get_c_code(self):
         prefix_sums = [0]
         cur_count = 0
-        for layer_a, layer_b, layer_op in self.layers[:-1]:
+        for layer_a, _layer_b, _layer_op in self.layers[:-1]:
             cur_count += len(layer_a)
             prefix_sums.append(cur_count)
 
@@ -264,7 +262,7 @@ void apply_logic_gate_net (bool const *inp, {BITS_TO_DTYPE[32]} *out, size_t len
                 if self.device == "cpu":
                     code = self.get_c_code()
                 else:
-                    assert False, "Device {} not supported.".format(self.device)
+                    raise AssertionError(f"Device {self.device} not supported.")
 
                 if verbose and len(code.split("\n")) <= 200:
                     print()
@@ -288,7 +286,7 @@ void apply_logic_gate_net (bool const *inp, {BITS_TO_DTYPE[32]} *out, size_t len
                             self.cpu_compiler,
                             "-shared",
                             "-fPIC",
-                            "-O{}".format(opt_level),
+                            f"-O{opt_level}",
                             # "-march=native",  # removed for compatibility with Apple Silicon: https://stackoverflow.com/questions/65966969/why-does-march-native-not-work-on-apple-m1
                             "-o",
                             lib_file.name,
@@ -296,17 +294,17 @@ void apply_logic_gate_net (bool const *inp, {BITS_TO_DTYPE[32]} *out, size_t len
                         ]
                     )
                 else:
-                    assert False, "Device {} not supported.".format(self.device)
+                    raise AssertionError(f"Device {self.device} not supported.")
 
                 if compiler_out.returncode != 0:
                     raise RuntimeError(f"compilation exited with error code {compiler_out.returncode}")
 
-                print("Compiling finished in {:.3f} seconds.".format(time.time() - t_s))
+                print(f"Compiling finished in {time.time() - t_s:.3f} seconds.")
 
             if save_lib_path is not None:
                 shutil.copy(lib_file.name, save_lib_path)
                 if verbose:
-                    print("lib_file copied from {} to {} .".format(lib_file.name, save_lib_path))
+                    print(f"lib_file copied from {lib_file.name} to {save_lib_path} .")
 
             lib = ctypes.cdll.LoadLibrary(lib_file.name)
 
@@ -338,9 +336,7 @@ void apply_logic_gate_net (bool const *inp, {BITS_TO_DTYPE[32]} *out, size_t len
         self.lib_fn = lib_fn
         return self
 
-    def forward(
-        self, x: Union[torch.BoolTensor, numpy.typing.NDArray[np.bool_]], verbose: bool = False
-    ) -> torch.IntTensor:
+    def forward(self, x: torch.BoolTensor | numpy.typing.NDArray[np.bool_], verbose: bool = False) -> torch.IntTensor:
         if isinstance(x, torch.Tensor):
             x = x.numpy()
 
