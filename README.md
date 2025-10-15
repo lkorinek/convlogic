@@ -41,11 +41,17 @@ Clone and install:
 ```bash
 git clone https://github.com/lkorinek/convlogic.git
 cd convlogic
-pip install -v .
+pip install .
 ```
 
 > [!TIP]
-> Use `CPU_ONLY=1` to run without a GPU (does not support training).
+> Use `CPU_ONLY=1 pip install .` to install without CUDA support (CPU-only, does not support training).
+
+For development:
+```bash
+# Install with development dependencies
+pip install .[dev]
+```
 
 Run training:
 
